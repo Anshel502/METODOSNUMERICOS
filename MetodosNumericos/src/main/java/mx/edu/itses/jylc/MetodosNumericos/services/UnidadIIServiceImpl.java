@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UnidadIIServiceImpl implements UnidadIIService {
 
+    @Override
     public ArrayList<Biseccion> AlgoritmoBiseccion(Biseccion biseccion){
         ArrayList<Biseccion> respuesta = new ArrayList<>();
         double XL, XU, XRa, XRn, FXL, FXU, FXR, Ea;
@@ -60,8 +61,9 @@ public class UnidadIIServiceImpl implements UnidadIIService {
         return respuesta;
     }
 
+    @Override
         public ArrayList<ReglaFalsa> AlgoritmoReglaFalsa(ReglaFalsa reglafalsa){
-        ArrayList<Biseccion> respuesta = new ArrayList<>();
+        ArrayList<ReglaFalsa> respuesta = new ArrayList<>();
         double XL, XU, XRa, XRn, FXL, FXU, FXR, Ea;
 
         XL = reglafalsa.getXL();
@@ -80,14 +82,14 @@ public class UnidadIIServiceImpl implements UnidadIIService {
                 if (i != 1) {
                     Ea = Funciones.ErrorRelativo(XRn, XRa);
                 }
-                Biseccion renglon = new Biseccion();
-                renglon.reglafalsa(XL);
-                renglon.reglafalsa(XU);
-                renglon.reglafalsa(XRn);
-                renglon.reglafalsa(FXL);
-                renglon.reglafalsa(FXU);
-                renglon.reglafalsa(FXR);
-                renglon.reglafalsa(Ea);
+                ReglaFalsa renglon = new ReglaFalsa();
+                renglon.setXL(XL);
+                renglon.setXU(XU);
+                renglon.setXR(XRn);
+                renglon.setFXL(FXL);
+                renglon.setFXU(FXU);
+                renglon.setFXR(FXR);
+                renglon.setEa(Ea);
                 if (FXL * FXR < 0) {
                     XU = XRn;
                 } else if (FXL * FXR > 0) {

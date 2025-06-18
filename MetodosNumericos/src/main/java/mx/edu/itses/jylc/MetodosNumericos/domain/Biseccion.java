@@ -6,15 +6,16 @@ import lombok.Data;
 @Data
 public class Biseccion {
  
-    private String Fx; //Funcion a Evaluar
-    private double Xl;
-    private double Xu;
-    private double Xr;
-    private double FXl;
-    private double FXu;
-    private double FXr;
+    private String FX; //Funcion a Evaluar
+    private double XL;
+    private double XU;
+    private double XR;
+    private double FXL;
+    private double FXU;
+    private double FXR;
     private double Ea;
     private int IteracionesMaximas;
-    
+
+   
     
 }
