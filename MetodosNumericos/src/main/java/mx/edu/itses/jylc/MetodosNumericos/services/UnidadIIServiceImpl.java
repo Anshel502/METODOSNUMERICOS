@@ -13,29 +13,29 @@ public class UnidadIIServiceImpl implements UnidadIIService {
         ArrayList<Biseccion> respuesta = new ArrayList<>();
         double XL, XU, XRa, XRn, FXL, FXU, FXR, Ea;
 
-        XL = biseccion.getXl();
-        XU = biseccion.getXu();
+        XL = biseccion.getXL();
+        XU = biseccion.getXU();
         XRa = 0;
         Ea = 100;
         // Verificamos que en el intervalo definido haya un cambio de signo
-        FXL = Funciones.Ecuacion(biseccion.getFx(), XL);
-        FXU = Funciones.Ecuacion(biseccion.getFx(), XU);
+        FXL = Funciones.Ecuacion(biseccion.getFX(), XL);
+        FXU = Funciones.Ecuacion(biseccion.getFX(), XU);
         if (FXL * FXU < 0) {
             for (int i = 1; i <= biseccion.getIteracionesMaximas(); i++) {
                 XRn = (XL + XU) / 2;
-                FXL = Funciones.Ecuacion(biseccion.getFx(), XL);
-                FXU = Funciones.Ecuacion(biseccion.getFx(), XU);
-                FXR = Funciones.Ecuacion(biseccion.getFx(), XRn);
+                FXL = Funciones.Ecuacion(biseccion.getFX(), XL);
+                FXU = Funciones.Ecuacion(biseccion.getFX(), XU);
+                FXR = Funciones.Ecuacion(biseccion.getFX(), XRn);
                 if (i != 1) {
                     Ea = Funciones.ErrorRelativo(XRn, XRa);
                 }
                 Biseccion renglon = new Biseccion();
-                renglon.setXl(XL);
-                renglon.setXu(XU);
-                renglon.setXr(XRn);
-                renglon.setFXl(FXL);
-                renglon.setFXu(FXU);
-                renglon.setFXr(FXR);
+                renglon.setXL(XL);
+                renglon.setXU(XU);
+                renglon.setXR(XRn);
+                renglon.setFXL(FXL);
+                renglon.setFXU(FXU);
+                renglon.setFXR(FXR);
                 renglon.setEa(Ea);
                 if (FXL * FXR < 0) {
                     XU = XRn;
