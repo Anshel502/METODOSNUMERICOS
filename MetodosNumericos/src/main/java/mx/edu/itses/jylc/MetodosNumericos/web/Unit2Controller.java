@@ -17,6 +17,7 @@ public class Unit2Controller {
 
     @Autowired
     private UnidadIIService bisectionservice;
+    @Autowired
     private UnidadIIService reglafalsaservice;
 
     @GetMapping("unit2/formbisection")
@@ -47,8 +48,8 @@ public class Unit2Controller {
         return "/unit2/bisection/solvebisection";
     }
 
+    @PostMapping("/unit2/solvereglafalsa")
     public String solvereglafalsa(ReglaFalsa reglafalsa, Model model) {
-
         var solveReglaFalsa = reglafalsaservice.AlgoritmoReglaFalsa(reglafalsa);
 
         log.info("Arreglo" + solveReglaFalsa);
