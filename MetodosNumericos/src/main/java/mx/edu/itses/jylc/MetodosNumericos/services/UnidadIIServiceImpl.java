@@ -75,7 +75,7 @@ public class UnidadIIServiceImpl implements UnidadIIService {
         FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
         if (FXL * FXU < 0) {
             for (int i = 1; i <= reglafalsa.getIteracionesMaximas(); i++) {
-                XRn = ((FXU)*(XL-XU)) / (FXL-FXU);
+                XRn = XU-(((FXU)*(XL-XU)) / (FXL-FXU));
                 FXL = Funciones.Ecuacion(reglafalsa.getFX(), XL);
                 FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
                 FXR = Funciones.Ecuacion(reglafalsa.getFX(), XRn);
