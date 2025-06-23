@@ -3,6 +3,7 @@ package mx.edu.itses.jylc.MetodosNumericos.services;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.Biseccion;
+import mx.edu.itses.jylc.MetodosNumericos.domain.PuntoFijo;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaFalsa;
 import org.springframework.stereotype.Service;
 
@@ -111,4 +112,55 @@ public class UnidadIIServiceImpl implements UnidadIIService {
 
         return respuesta;
     }
+        
+        public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo){
+        ArrayList<PuntoFijo> respuesta = new ArrayList<>();
+        double XL,FXL, Ea;
+
+        XL = puntofijo.getXL();
+        Ea = 100;
+        
+        
+        // Verificamos que en el intervalo definido haya un cambio de signo
+        /*
+        FXL = Funciones.Ecuacion(puntofijo.getFX(), XL);
+        if (FXL * FXU < 0) {
+            for (int i = 1; i <= reglafalsa.getIteracionesMaximas(); i++) {
+                XRn = XU-(((FXU)*(XL-XU)) / (FXL-FXU));
+                FXL = Funciones.Ecuacion(reglafalsa.getFX(), XL);
+                FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
+                FXR = Funciones.Ecuacion(reglafalsa.getFX(), XRn);
+                if (i != 1) {
+                    Ea = Funciones.ErrorRelativo(XRn, XRa);
+                }
+                ReglaFalsa renglon = new ReglaFalsa();
+                renglon.setXL(XL);
+                renglon.setXU(XU);
+                renglon.setXR(XRn);
+                renglon.setFXL(FXL);
+                renglon.setFXU(FXU);
+                renglon.setFXR(FXR);
+                renglon.setEa(Ea);
+                if (FXL * FXR < 0) {
+                    XU = XRn;
+                } else if (FXL * FXR > 0) {
+                    XL = XRn;
+                } else if (FXL * FXR == 0) {
+                    break;
+                }
+                XRa = XRn;
+                respuesta.add(renglon);
+                if (Ea <= reglafalsa.getEa()) {
+                    break;
+                }
+            }
+        } else {
+            ReglaFalsa renglon = new ReglaFalsa();
+           // renglon.setIntervaloInvalido(true);
+            respuesta.add(renglon);
+        }
+*/
+        return respuesta;
+    }
 }
+
