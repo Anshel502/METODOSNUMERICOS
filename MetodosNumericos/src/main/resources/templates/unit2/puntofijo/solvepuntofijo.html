@@ -35,7 +35,7 @@
     <tr th:each="solve,iter:${solvePuntoFijo}">
       <td th:text="${solve.iteracion}"># de Iteracion</td>
       <td th:text="${solve.XL}">Valor Xl</td>
-      <td th:text="${solve.FXL}">Valor G(X)</td>
+      <td th:text="${solve.XR}">Valor G(X)</td>
       <td th:text="${solve.Ea}">Error estimado aproximado actual</td>
     </tr>
   </tbody>

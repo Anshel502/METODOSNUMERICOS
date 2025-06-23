@@ -15,6 +15,14 @@ public class Funciones {
         return f;
     }
     
+    public static double EvaluarG(String Gx, double x) {
+        double g;
+        Function funcion = new Function(Gx);
+        Expression evaluacion = new Expression("G(" + x + ")", funcion);
+        g = evaluacion.calculate();
+        return g;
+    }
+    
     public static double ErrorRelativo(double ValorNuevo, double ValorAnterior) {
         return abs((ValorNuevo - ValorAnterior) / ValorNuevo * 100);
     }

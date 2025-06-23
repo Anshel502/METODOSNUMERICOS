@@ -112,40 +112,44 @@ public class UnidadIIServiceImpl implements UnidadIIService {
 
         return respuesta;
     }
+@Override
+    public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo) {
+        ArrayList<PuntoFijo> respuesta = new ArrayList<>();
+        double XL, XR, Ea;
+        double errorAprox = 100;
+        int iterMax = puntofijo.getIteracionesMaximas();
 
-    @Override
-public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo) {
-    ArrayList<PuntoFijo> respuesta = new ArrayList<>();
-    double XL, XRn, XRa,FXL, Ea;
+        XL = puntofijo.getXL();
+        Ea = puntofijo.getEa();
 
-    XL = puntofijo.getXL();
-    XRa = 0;
-    Ea = 100;
+        for (int i = 1; i <= iterMax; i++) {
+            XR = Funciones.EvaluarG(puntofijo.getGX(), XL);  
 
-    for (int i = 1; i <= puntofijo.getIteracionesMaximas(); i++) {
-        FXL = Funciones.Ecuacion(puntofijo.getGX(), XL);
-        XRn = FXL;
+            if (i != 1) {
+                errorAprox = Funciones.ErrorRelativo(XR, XL);
+                if (Double.isNaN(errorAprox)) {
+                    log.error("Error relativo inválido en iteración {}. XL={}, XR={}", i, XL, XR);
+                    break;
+                }
+            }
 
-        if (i != 1) {
-            Ea = Funciones.ErrorRelativo(XRn, XRa);
+            PuntoFijo renglon = new PuntoFijo();
+            renglon.setXL(XL);
+            renglon.setXR(XR);
+            renglon.setEa(errorAprox);
+            renglon.setGX(puntofijo.getGX());
+            renglon.setIteracionesMaximas(iterMax);
+            respuesta.add(renglon);
+
+            if (errorAprox <= Ea) {
+                break;
+            }
+
+            XL = XR;
         }
 
-        PuntoFijo renglon = new PuntoFijo();
-        renglon.setXL(XL);      
-        renglon.setFXL(FXL); 
-        renglon.setEa(Ea);       
-
-        respuesta.add(renglon);
-
-        if (Ea <= puntofijo.getEa()) {
-            break;
-        }
-
-        XL = XRn;
+        return respuesta;
     }
-
-    return respuesta;
-}
 
 
 
