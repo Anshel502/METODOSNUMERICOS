@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class UnidadIIServiceImpl implements UnidadIIService {
 
     @Override
-    public ArrayList<Biseccion> AlgoritmoBiseccion(Biseccion biseccion){
+    public ArrayList<Biseccion> AlgoritmoBiseccion(Biseccion biseccion) {
         ArrayList<Biseccion> respuesta = new ArrayList<>();
         double XL, XU, XRa, XRn, FXL, FXU, FXR, Ea;
 
@@ -55,7 +55,7 @@ public class UnidadIIServiceImpl implements UnidadIIService {
             }
         } else {
             Biseccion renglon = new Biseccion();
-           // renglon.setIntervaloInvalido(true);
+            // renglon.setIntervaloInvalido(true);
             respuesta.add(renglon);
         }
 
@@ -63,7 +63,7 @@ public class UnidadIIServiceImpl implements UnidadIIService {
     }
 
     @Override
-        public ArrayList<ReglaFalsa> AlgoritmoReglaFalsa(ReglaFalsa reglafalsa){
+    public ArrayList<ReglaFalsa> AlgoritmoReglaFalsa(ReglaFalsa reglafalsa) {
         ArrayList<ReglaFalsa> respuesta = new ArrayList<>();
         double XL, XU, XRa, XRn, FXL, FXU, FXR, Ea;
 
@@ -76,7 +76,7 @@ public class UnidadIIServiceImpl implements UnidadIIService {
         FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
         if (FXL * FXU < 0) {
             for (int i = 1; i <= reglafalsa.getIteracionesMaximas(); i++) {
-                XRn = XU-(((FXU)*(XL-XU)) / (FXL-FXU));
+                XRn = XU - (((FXU) * (XL - XU)) / (FXL - FXU));
                 FXL = Funciones.Ecuacion(reglafalsa.getFX(), XL);
                 FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
                 FXR = Funciones.Ecuacion(reglafalsa.getFX(), XRn);
@@ -106,61 +106,54 @@ public class UnidadIIServiceImpl implements UnidadIIService {
             }
         } else {
             ReglaFalsa renglon = new ReglaFalsa();
-           // renglon.setIntervaloInvalido(true);
+            // renglon.setIntervaloInvalido(true);
             respuesta.add(renglon);
         }
 
         return respuesta;
     }
-        
-        public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo){
-        ArrayList<PuntoFijo> respuesta = new ArrayList<>();
-        double XL,FXL, Ea;
 
-        XL = puntofijo.getXL();
-        Ea = 100;
-        
-        
-        // Verificamos que en el intervalo definido haya un cambio de signo
-        /*
-        FXL = Funciones.Ecuacion(puntofijo.getFX(), XL);
-        if (FXL * FXU < 0) {
-            for (int i = 1; i <= reglafalsa.getIteracionesMaximas(); i++) {
-                XRn = XU-(((FXU)*(XL-XU)) / (FXL-FXU));
-                FXL = Funciones.Ecuacion(reglafalsa.getFX(), XL);
-                FXU = Funciones.Ecuacion(reglafalsa.getFX(), XU);
-                FXR = Funciones.Ecuacion(reglafalsa.getFX(), XRn);
-                if (i != 1) {
-                    Ea = Funciones.ErrorRelativo(XRn, XRa);
-                }
-                ReglaFalsa renglon = new ReglaFalsa();
-                renglon.setXL(XL);
-                renglon.setXU(XU);
-                renglon.setXR(XRn);
-                renglon.setFXL(FXL);
-                renglon.setFXU(FXU);
-                renglon.setFXR(FXR);
-                renglon.setEa(Ea);
-                if (FXL * FXR < 0) {
-                    XU = XRn;
-                } else if (FXL * FXR > 0) {
-                    XL = XRn;
-                } else if (FXL * FXR == 0) {
-                    break;
-                }
-                XRa = XRn;
-                respuesta.add(renglon);
-                if (Ea <= reglafalsa.getEa()) {
-                    break;
-                }
-            }
-        } else {
-            ReglaFalsa renglon = new ReglaFalsa();
-           // renglon.setIntervaloInvalido(true);
-            respuesta.add(renglon);
+    @Override
+public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo) {
+    ArrayList<PuntoFijo> respuesta = new ArrayList<>();
+    double XL, XRn, XRa,FXL, Ea;
+
+    XL = puntofijo.getXL();
+    XRa = 0;
+    Ea = 100;
+
+    for (int i = 1; i <= puntofijo.getIteracionesMaximas(); i++) {
+        FXL = Funciones.Ecuacion(puntofijo.getGX(), XL);
+        XRn = FXL;
+
+        if (i != 1) {
+            Ea = Funciones.ErrorRelativo(XRn, XRa);
         }
-*/
-        return respuesta;
+
+        PuntoFijo renglon = new PuntoFijo();
+        renglon.setXL(XL);      
+        renglon.setFXL(FXL); 
+        renglon.setEa(Ea);       
+
+        respuesta.add(renglon);
+
+        if (Ea <= puntofijo.getEa()) {
+            break;
+        }
+
+        XL = XRn;
     }
+
+    return respuesta;
 }
+
+
+
+        
+        
+        
+        
+        
+}
+
 

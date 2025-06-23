@@ -43,7 +43,7 @@ public class Unit2Controller {
         PuntoFijo puntofijo = new PuntoFijo();
 
         model.addAttribute("puntofijo", puntofijo);
-        return "unit2/bisection/formpuntofijo";
+        return "unit2/puntofijo/formpuntofijo";
     }
 
     @PostMapping("/unit2/solvebisection")

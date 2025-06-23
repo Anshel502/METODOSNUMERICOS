@@ -27,26 +27,20 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Xl</th>
-      <th scope="col">Xu</th>
-      <th scope="col">Xr</th>
-      <th scope="col">F(Xl)</th>
-      <th scope="col">F(Xu)</th>
-      <th scope="col">F(Xr)</th>
-      <th scope="col">Error Aprox.</th>
+      <th scope="col">G(Xl)</th>
+      <th scope="col">Error Aprox</th>
     </tr>
   </thead>
   <tbody>
-    <tr th:each="solve,iter:${solveReglaFalsa}">
-      <td th:text="${iter.index}"># de Iteracion</td>
-      <td th:text="${solve.XL}">Valor de limite inferior Xl</td>
-      <td th:text="${solve.XU}">Valor de limite inferior Xu</td>
-      <td th:text="${solve.XR}">Valor calculado de rais</td>
-      <td th:text="${solve.FXL}">Valor de limite inferior FXL</td>
-      <td th:text="${solve.FXU}">Valor de limite inferior FXU</td>
-      <td th:text="${solve.FXR}">Valor de limite inferior FXR</td>
+    <tr th:each="solve,iter:${solvePuntoFijo}">
+      <td th:text="${solve.iteracion}"># de Iteracion</td>
+      <td th:text="${solve.XL}">Valor Xl</td>
+      <td th:text="${solve.FXL}">Valor G(X)</td>
       <td th:text="${solve.Ea}">Error estimado aproximado actual</td>
     </tr>
-   
   </tbody>
-</table>   </body>
+</table>
+
+
+    </body>
 </html>
