@@ -27,5 +27,10 @@ public class Funciones {
         return abs((ValorNuevo - ValorAnterior) / ValorNuevo * 100);
     }
 
-
+ public static double DerivadaNumerica(String f1, double x) {
+        double h = 1e-5;
+        double fMas = Ecuacion(f1, x + h);
+        double fMenos = Ecuacion(f1, x - h);
+        return (fMas - fMenos) / (2 * h);
+    }
 }

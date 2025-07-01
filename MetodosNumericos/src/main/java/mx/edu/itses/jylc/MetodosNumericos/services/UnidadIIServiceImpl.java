@@ -3,6 +3,7 @@ package mx.edu.itses.jylc.MetodosNumericos.services;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.Biseccion;
+import mx.edu.itses.jylc.MetodosNumericos.domain.NewtonRaphson;
 import mx.edu.itses.jylc.MetodosNumericos.domain.PuntoFijo;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaFalsa;
 import org.springframework.stereotype.Service;
@@ -112,6 +113,7 @@ public class UnidadIIServiceImpl implements UnidadIIService {
 
         return respuesta;
     }
+    
 @Override
     public ArrayList<PuntoFijo> AlgoritmoPuntoFijo(PuntoFijo puntofijo) {
         ArrayList<PuntoFijo> respuesta = new ArrayList<>();
@@ -151,10 +153,58 @@ public class UnidadIIServiceImpl implements UnidadIIService {
         return respuesta;
     }
 
+    @Override
+    public ArrayList<NewtonRaphson> AlgoritmoNewtonRaphson(NewtonRaphson newtonraphson) {
+        ArrayList<NewtonRaphson> respuesta = new ArrayList<>();
+
+        double XL = newtonraphson.getXL(); 
+        double XR ;                   
+        double errorAprox = 100;          
+        double tolerancia = newtonraphson.getEa();
+        int iterMax = newtonraphson.getIteracionesMaximas();
+        String funcion = newtonraphson.getFX();
+
+        for (int i = 1; i <= iterMax; i++) {
+            double fx = Funciones.Ecuacion(funcion, XL);
+            double derivada = Funciones.DerivadaNumerica(funcion, XL);
+
+            if (derivada == 0) {
+                log.error("Derivada igual a cero en iteración {}. XL = {}", i, XL);
+                break;
+            }
+
+            XR = XL - (fx / derivada);
+
+            if (i != 1) {
+                errorAprox = Funciones.ErrorRelativo(XR, XL);
+                if (Double.isNaN(errorAprox)) {
+                    log.error("Error relativo inválido en iteración {}. XL={}, XR={}", i, XL, XR);
+                    break;
+                }
+            }
+
+            NewtonRaphson renglon = new NewtonRaphson();
+            renglon.setFX(funcion);
+            renglon.setXL(XL);
+            renglon.setXR(XR);
+            renglon.setEa(errorAprox);
+            renglon.setIteracionesMaximas(iterMax);
+            respuesta.add(renglon);
+
+            
+            if (errorAprox <= tolerancia) {
+                break;
+            }
+
+            XL = XR; 
+        }
+
+        return respuesta;
+    }
 
 
-        
-        
+
+
         
         
         
