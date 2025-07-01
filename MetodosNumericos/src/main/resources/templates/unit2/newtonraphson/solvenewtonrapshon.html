@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>NewtonRapshon</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <!-- Bootstrap CSS -->
@@ -32,13 +32,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr th:each="solve,iter:${solveNewtonRaphson}">
+    <tr th:each="solve,iter:${solvenewtonraphson}">
       <td th:text="${iter.index}"># de Iteracion</td>
       <td th:text="${solve.XL}">Valor Xl</td>
       <td th:text="${solve.XR}">Valor calculado de raiz</td>
       <td th:text="${solve.Ea}">Error estimado aproximado actual</td>
-    </tr>
+    </tr>   
    
   </tbody>
-</table>   </body>
+</table>
+    </body>
 </html>

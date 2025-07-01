@@ -175,16 +175,8 @@ public class UnidadIIServiceImpl implements UnidadIIService {
 
             XR = XL - (fx / derivada);
 
-            if (i != 1) {
-                errorAprox = Funciones.ErrorRelativo(XR, XL);
-                if (Double.isNaN(errorAprox)) {
-                    log.error("Error relativo inválido en iteración {}. XL={}, XR={}", i, XL, XR);
-                    break;
-                }
-            }
 
             NewtonRaphson renglon = new NewtonRaphson();
-            renglon.setFX(funcion);
             renglon.setXL(XL);
             renglon.setXR(XR);
             renglon.setEa(errorAprox);

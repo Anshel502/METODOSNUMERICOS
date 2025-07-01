@@ -30,9 +30,9 @@
 
 <div class="container mt-5">
     <h3 class="mb-4">Formulario de Datos</h3>
-    <form class="row g-3" th:action="@{/unit2/solvenewtonraphson}" method="post" th:object="${newtonraphson}">
+    <form class="row g-3" th:action="@{/unit2/solvenewtonrapshon}" method="post" th:object="${newtonrapshon}">
         <div class="mb-3">
-            <label for="FX" class="form-label">Ingresa la Funcion (f(x)):</label>
+            <label for="FX" class="form-label">Ingresa la Funcion f(x):</label>
             <input type="text" class="form-control" id="FX" name="FX" required th:field="*{FX}">
         </div>
         <div class="mb-3">

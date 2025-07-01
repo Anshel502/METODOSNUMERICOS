@@ -5,7 +5,6 @@ import mx.edu.itses.jylc.MetodosNumericos.domain.Biseccion;
 import mx.edu.itses.jylc.MetodosNumericos.domain.NewtonRaphson;
 import mx.edu.itses.jylc.MetodosNumericos.domain.PuntoFijo;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaFalsa;
-import mx.edu.itses.jylc.MetodosNumericos.services.Funciones;
 import mx.edu.itses.jylc.MetodosNumericos.services.UnidadIIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,17 +40,18 @@ public class Unit2Controller {
         model.addAttribute("reglafalsa", reglafalsa);
         return "unit2/reglafalsa/formreglafalsa";
     }
-        @GetMapping("unit2/formpuntofijo")
+
+    @GetMapping("unit2/formpuntofijo")
     public String formPuntoFijo(Model model) {
         PuntoFijo puntofijo = new PuntoFijo();
 
         model.addAttribute("puntofijo", puntofijo);
         return "unit2/puntofijo/formpuntofijo";
     }
-        @GetMapping("unit2/formnewtonrapshon")
+
+    @GetMapping("unit2/formnewtonrapshon")
     public String formNewtonRaphson(Model model) {
         NewtonRaphson newtonraphson = new NewtonRaphson();
-
         model.addAttribute("newtonraphson", newtonraphson);
         return "unit2/newtonraphson/formnewtonrapshon";
     }
@@ -77,7 +77,7 @@ public class Unit2Controller {
 
         return "/unit2/reglafalsa/solvereglafalsa";
     }
-    
+
     @PostMapping("/unit2/solvepuntofijo")
     public String solvepuntofijo(PuntoFijo puntofijo, Model model) {
         var solvePuntoFijo = puntofijoservice.AlgoritmoPuntoFijo(puntofijo);
@@ -87,7 +87,7 @@ public class Unit2Controller {
 
         return "/unit2/puntofijo/solvepuntofijo";
     }
-    
+
     @PostMapping("/unit2/solvenewtonraphson")
     public String solvenewtonraphson(NewtonRaphson newtonraphson, Model model) {
         var solveNewtonRaphson = newtonraphsonservice.AlgoritmoNewtonRaphson(newtonraphson);
