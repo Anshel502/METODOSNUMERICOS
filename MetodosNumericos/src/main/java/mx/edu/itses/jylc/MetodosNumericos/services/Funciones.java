@@ -33,4 +33,13 @@ public class Funciones {
         double fMenos = Ecuacion(f1, x - h);
         return (fMas - fMenos) / (2 * h);
     }
+ 
+ public static double SegundaDerivadaNumerica(String f1, double x) {
+    double h = 1e-5;
+    double fMas = Ecuacion(f1, x + h);
+    double f = Ecuacion(f1, x);
+    double fMenos = Ecuacion(f1, x - h);
+    return (fMas - 2 * f + fMenos) / (h * h);
+}
+
 }

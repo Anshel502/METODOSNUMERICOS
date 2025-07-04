@@ -12,6 +12,6 @@ public class ReglaFalsa {
     private double FXL;
     private double FXU;
     private double FXR;
-    private double Ea;
+    private double Ea; //Error aprox
     private int IteracionesMaximas;
 }

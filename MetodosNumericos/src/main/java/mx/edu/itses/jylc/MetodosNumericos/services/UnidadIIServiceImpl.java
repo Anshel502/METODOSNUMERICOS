@@ -6,6 +6,8 @@ import mx.edu.itses.jylc.MetodosNumericos.domain.Biseccion;
 import mx.edu.itses.jylc.MetodosNumericos.domain.NewtonRaphson;
 import mx.edu.itses.jylc.MetodosNumericos.domain.PuntoFijo;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaFalsa;
+import mx.edu.itses.jylc.MetodosNumericos.domain.Secante;
+import mx.edu.itses.jylc.MetodosNumericos.domain.SecanteModificado;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -195,9 +197,85 @@ public class UnidadIIServiceImpl implements UnidadIIService {
     }
 
 
+    @Override
+    public ArrayList<Secante> AlgoritmoSecante(Secante secante) {
+    ArrayList<Secante> respuesta = new ArrayList<>();
+    double x0 = secante.getX0();
+    double x1 = secante.getX1();
+    double fx0, fx1, x2 = 0, ea = 100;
 
+    for (int i = 1; i <= secante.getIteracionesMaximas(); i++) {
+        fx0 = Funciones.Ecuacion(secante.getFX(), x0);
+        fx1 = Funciones.Ecuacion(secante.getFX(), x1);
 
-        
+        if ((fx1 - fx0) == 0) {
+            break; // división por cero
+        }
+
+        x2 = x1 - fx1 * (x1 - x0) / (fx1 - fx0);
+        Funciones.Ecuacion(secante.getFX(), x2);
+
+        if (i != 1) {
+            ea = Funciones.ErrorRelativo(x2, x1);
+        }
+
+        Secante renglon = new Secante();
+        renglon.setX0(x0);
+        renglon.setX1(x1);
+        renglon.setEa(ea);
+        renglon.setFX(secante.getFX());
+        renglon.setIteracionesMaximas(i);
+
+        respuesta.add(renglon);
+
+        // Verifica si cumple la tolerancia
+        if (ea <= secante.getEa()) {
+            break;
+        }
+
+        // Reasignación para siguiente iteración
+        x0 = x1;
+        x1 = x2;
+    }
+
+    return respuesta;
+}
+
+@Override
+public ArrayList<SecanteModificado> AlgoritmoSecanteModificado(SecanteModificado sm) {
+    ArrayList<SecanteModificado> respuesta = new ArrayList<>();
+
+    double x = sm.getX();
+    double fx, fx1, fx2, xsig, ea = 100;
+
+    for (int i = 1; i <= sm.getIteracionesMaximas(); i++) {
+        fx = Funciones.Ecuacion(sm.getFX(), x);
+        fx1 = Funciones.DerivadaNumerica(sm.getFX(), x);
+        fx2 = Funciones.SegundaDerivadaNumerica(sm.getFX(), x);
+
+        xsig = x - ((fx * fx1) / (Math.pow(fx1, 2) - fx * fx2));
+
+        if (i != 1) {
+            ea = Funciones.ErrorRelativo(xsig, x);
+        }
+
+        // Guardar resultados
+        SecanteModificado renglon = new SecanteModificado();
+        renglon.setX(x);
+        renglon.setFX1(fx1);
+        renglon.setFX2(fx2);
+        renglon.setXsig(xsig);
+        renglon.setEa(ea);
+
+        respuesta.add(renglon);
+
+        if (ea <= sm.getEa()) break;
+        x = xsig;
+    }
+
+    return respuesta;
+}
+
         
         
 }
