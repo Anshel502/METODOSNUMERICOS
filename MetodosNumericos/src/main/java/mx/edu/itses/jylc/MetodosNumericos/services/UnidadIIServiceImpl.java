@@ -276,8 +276,7 @@ public ArrayList<SecanteModificado> AlgoritmoSecanteModificado(SecanteModificado
     return respuesta;
 }
 
-        
-        
+ 
 }
 
 

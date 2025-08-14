@@ -2,11 +2,13 @@ package mx.edu.itses.jylc.MetodosNumericos.web;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.Biseccion;
+import mx.edu.itses.jylc.MetodosNumericos.domain.EliminacionGaussiana;
 import mx.edu.itses.jylc.MetodosNumericos.domain.NewtonRaphson;
 import mx.edu.itses.jylc.MetodosNumericos.domain.PuntoFijo;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaFalsa;
 import mx.edu.itses.jylc.MetodosNumericos.domain.Secante;
 import mx.edu.itses.jylc.MetodosNumericos.domain.SecanteModificado;
+import mx.edu.itses.jylc.MetodosNumericos.services.UnidadIIIService;
 import mx.edu.itses.jylc.MetodosNumericos.services.UnidadIIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ public class Unit2Controller {
 
     @Autowired
     private UnidadIIService UnidadService;
+    private UnidadIIIService UnidadServiceIII;
+
+    
    
 
     @GetMapping("/unit2")
@@ -132,5 +137,5 @@ public class Unit2Controller {
         return "/unit2/newtonraphson/solvenewtonraphson";
     }
     
-    
+   
 }
