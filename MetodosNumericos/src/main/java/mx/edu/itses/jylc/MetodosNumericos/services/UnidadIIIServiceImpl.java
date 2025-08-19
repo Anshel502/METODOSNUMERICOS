@@ -4,6 +4,7 @@ package mx.edu.itses.jylc.MetodosNumericos.services;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.EliminacionGaussiana;
+import mx.edu.itses.jylc.MetodosNumericos.domain.GaussJordan;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaCramer;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,56 @@ public class UnidadIIIServiceImpl implements UnidadIIIService {
         return paso;
     }
 
-    
+    @Override
+public ArrayList<GaussJordan> AlgoritmoGaussJordan(GaussJordan gaussJordan) {
+    int n = gaussJordan.getN();
+    double[][] matriz = gaussJordan.getMatriz();
+    ArrayList<GaussJordan> pasos = new ArrayList<>();
+
+    pasos.add(clonarMatriz(gaussJordan, matriz));
+
+    for (int k = 0; k < n; k++) {
+        double pivote = matriz[k][k];
+        for (int j = 0; j <= n; j++) {
+            matriz[k][j] /= pivote;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (i != k) {
+                double factor = matriz[i][k];
+                for (int j = 0; j <= n; j++) {
+                    matriz[i][j] -= factor * matriz[k][j];
+                }
+            }
+        }
+
+        pasos.add(clonarMatriz(gaussJordan, matriz)); 
+    }
+
+    double[] resultados = new double[n];
+    for (int i = 0; i < n; i++) {
+        resultados[i] = matriz[i][n];
+    }
+
+    GaussJordan finalStep = clonarMatriz(gaussJordan, matriz);
+    finalStep.setResultados(resultados);
+    pasos.add(finalStep);
+
+    return pasos;
+}
+
+private GaussJordan clonarMatriz(GaussJordan model, double[][] matrizOriginal) {
+    int n = model.getN();
+    double[][] copia = new double[n][n + 1];
+    for (int i = 0; i < n; i++) {
+        System.arraycopy(matrizOriginal[i], 0, copia[i], 0, n + 1);
+    }
+    GaussJordan paso = new GaussJordan();
+    paso.setN(n);
+    paso.setMatriz(copia);
+    return paso;
+}
+
 
    
 }

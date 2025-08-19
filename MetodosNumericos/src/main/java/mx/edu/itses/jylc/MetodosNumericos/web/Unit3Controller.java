@@ -5,7 +5,7 @@
 package mx.edu.itses.jylc.MetodosNumericos.web;
 
 import lombok.extern.slf4j.Slf4j;
-import mx.edu.itses.jylc.MetodosNumericos.domain.EliminacionGaussiana;
+import mx.edu.itses.jylc.MetodosNumericos.domain.GaussJordan;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaCramer;
 import mx.edu.itses.jylc.MetodosNumericos.services.UnidadIIIService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,22 +45,22 @@ public class Unit3Controller {
         return "unit3/cramer/formcramer";
     }
     
-    
-@GetMapping("/unit3/formeliminaciongaussiana")
-public String formEliminacionGaussiana(Model model) {
-    EliminacionGaussiana eliminaciongaussiana = new EliminacionGaussiana();
-    model.addAttribute("eliminaciongaussiana", eliminaciongaussiana);
-    return "/unit3/eliminaciongaussiana/formeliminaciongaussiana";
+@GetMapping("/unit3/formgaussjordan")
+public String formGaussJordan(Model model) {
+    GaussJordan gaussjordan = new GaussJordan();
+    model.addAttribute("gaussjordan", gaussjordan);
+    return "/unit3/gaussjordan/formgaussjordan";
 }
 
-@PostMapping("/unit3/solveeliminaciongaussiana")
-public String solveEliminacionGaussiana(EliminacionGaussiana eliminaciongaussiana, Model model) {
-    var solveEliminacionGaussiana = unidadIIIsrv.AlgoritmoEliminacionGaussiana(eliminaciongaussiana);
+@PostMapping("/unit3/solvegaussjordan")
+public String solveGaussJordan(GaussJordan gaussjordan, Model model) {
+    var solveGaussJordan = unidadIIIsrv.AlgoritmoGaussJordan(gaussjordan);
 
-    log.info("Resultado Eliminación Gaussiana: " + solveEliminacionGaussiana);
-    model.addAttribute("solveEliminacionGaussiana", solveEliminacionGaussiana);
+    log.info("Resultado Gauss-Jordan: " + solveGaussJordan);
+    model.addAttribute("pasos", solveGaussJordan);
 
-    return "/unit3/eliminaciongaussiana/solveeliminaciongaussiana";
+    return "/unit3/gaussjordan/solvegaussjordan";
 }
+
 
 }
