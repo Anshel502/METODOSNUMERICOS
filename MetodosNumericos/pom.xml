@@ -8,7 +8,7 @@
         <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>mx.edu.itses.jylc</groupId>
+    <groupId>mx.edu.itses.sjm</groupId>
     <artifactId>MetodosNumericos</artifactId>
     <version>1.0</version>
     <name>MetodosNumericos</name>

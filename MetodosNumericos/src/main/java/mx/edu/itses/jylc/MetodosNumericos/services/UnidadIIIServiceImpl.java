@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.EliminacionGaussiana;
 import mx.edu.itses.jylc.MetodosNumericos.domain.GaussJordan;
-import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaCramer;
+import mx.edu.itses.jylc.MetodosNumericos.domain.GaussSeidel;
+import mx.edu.itses.jylc.MetodosNumericos.domain.Jacobi;
 import org.springframework.stereotype.Service;
 
 
@@ -20,10 +21,8 @@ public class UnidadIIIServiceImpl implements UnidadIIIService {
         double[][] matriz = eliminaciongaussiana.getMatriz();
         ArrayList<EliminacionGaussiana> pasos = new ArrayList<>();
 
-        // Guardar estado inicial
         pasos.add(clonarMatriz(eliminaciongaussiana, matriz));
 
-        // Eliminación Gaussiana hacia adelante
         for (int k = 0; k < n - 1; k++) {
             for (int i = k + 1; i < n; i++) {
                 double factor = matriz[i][k] / matriz[k][k];
@@ -31,10 +30,9 @@ public class UnidadIIIServiceImpl implements UnidadIIIService {
                     matriz[i][j] -= factor * matriz[k][j];
                 }
             }
-            pasos.add(clonarMatriz(eliminaciongaussiana, matriz)); // Guardar paso
+            pasos.add(clonarMatriz(eliminaciongaussiana, matriz));
         }
 
-        // Sustitución hacia atrás
         double[] resultados = new double[n];
         for (int i = n - 1; i >= 0; i--) {
             double suma = matriz[i][n];
@@ -44,7 +42,6 @@ public class UnidadIIIServiceImpl implements UnidadIIIService {
             resultados[i] = suma / matriz[i][i];
         }
 
-        // Guardar resultados finales
         EliminacionGaussiana finalStep = clonarMatriz(eliminaciongaussiana, matriz);
         finalStep.setResultados(resultados);
         pasos.add(finalStep);
@@ -52,7 +49,6 @@ public class UnidadIIIServiceImpl implements UnidadIIIService {
         return pasos;
     }
 
-    // Método auxiliar para clonar el estado de la matriz
     private EliminacionGaussiana clonarMatriz(EliminacionGaussiana model, double[][] matrizOriginal) {
         int n = model.getN();
         double[][] copia = new double[n][n + 1];
@@ -113,6 +109,109 @@ private GaussJordan clonarMatriz(GaussJordan model, double[][] matrizOriginal) {
     paso.setN(n);
     paso.setMatriz(copia);
     return paso;
+}
+
+@Override
+public ArrayList<Jacobi> AlgoritmoJacobi(Jacobi jacobi) {
+    int n = jacobi.getN();
+    double[][] matriz = jacobi.getMatriz(); 
+    double[] x = jacobi.getX0().clone();    
+    double[] xNuevo = new double[n];
+
+    int maxIter = jacobi.getIteracionesMax();
+    double tol = jacobi.getTol();
+
+    ArrayList<Jacobi> pasos = new ArrayList<>();
+
+    for (int k = 0; k < maxIter; k++) {
+        for (int i = 0; i < n; i++) {
+            double suma = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    suma += matriz[i][j] * x[j];
+                }
+            }
+            xNuevo[i] = (matriz[i][n] - suma) / matriz[i][i];
+        }
+
+        Jacobi paso = new Jacobi();
+        paso.setN(n);
+        paso.setMatriz(clonarMatriz(matriz, n));
+        paso.setX0(xNuevo.clone()); 
+        pasos.add(paso);
+
+        double error = 0;
+        for (int i = 0; i < n; i++) {
+            error += Math.abs(xNuevo[i] - x[i]);
+        }
+        if (error < tol) {
+            break;
+        }
+
+        x = xNuevo.clone();
+    }
+
+    Jacobi finalStep = new Jacobi();
+    finalStep.setN(n);
+    finalStep.setMatriz(clonarMatriz(matriz, n));
+    finalStep.setResultados(xNuevo.clone());
+    pasos.add(finalStep);
+
+    return pasos;
+}
+
+private double[][] clonarMatriz(double[][] original, int n) {
+    double[][] copia = new double[n][n + 1];
+    for (int i = 0; i < n; i++) {
+        System.arraycopy(original[i], 0, copia[i], 0, n + 1);
+    }
+    return copia;
+}
+
+@Override
+public ArrayList<GaussSeidel> AlgoritmoGaussSeidel(GaussSeidel gaussSeidel) {
+    int n = gaussSeidel.getN();
+    double[][] matriz = gaussSeidel.getMatriz();  
+    double[] x = gaussSeidel.getX0().clone();      
+
+    int maxIter = gaussSeidel.getIteraciones();
+    double tol = gaussSeidel.getTolerancia();
+
+    ArrayList<GaussSeidel> pasos = new ArrayList<>();
+
+    for (int k = 0; k < maxIter; k++) {
+        double[] xAnterior = x.clone();
+
+        for (int i = 0; i < n; i++) {
+            double suma = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    suma += matriz[i][j] * x[j]; 
+                }
+            }
+            x[i] = (matriz[i][n] - suma) / matriz[i][i];
+        }
+
+        GaussSeidel paso = new GaussSeidel();
+        paso.setN(n);
+        paso.setMatriz(clonarMatriz(matriz, n));
+        paso.setX0(x.clone());
+        pasos.add(paso);
+
+        double error = 0;
+        for (int i = 0; i < n; i++) {
+            error += Math.abs(x[i] - xAnterior[i]);
+        }
+        if (error < tol) break;
+    }
+
+    GaussSeidel finalStep = new GaussSeidel();
+    finalStep.setN(n);
+    finalStep.setMatriz(clonarMatriz(matriz, n));
+    finalStep.setX0(x.clone()); 
+    pasos.add(finalStep);
+
+    return pasos;
 }
 
 

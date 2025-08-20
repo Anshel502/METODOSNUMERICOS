@@ -6,6 +6,8 @@ package mx.edu.itses.jylc.MetodosNumericos.web;
 
 import lombok.extern.slf4j.Slf4j;
 import mx.edu.itses.jylc.MetodosNumericos.domain.GaussJordan;
+import mx.edu.itses.jylc.MetodosNumericos.domain.GaussSeidel;
+import mx.edu.itses.jylc.MetodosNumericos.domain.Jacobi;
 import mx.edu.itses.jylc.MetodosNumericos.domain.ReglaCramer;
 import mx.edu.itses.jylc.MetodosNumericos.services.UnidadIIIService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +64,39 @@ public String solveGaussJordan(GaussJordan gaussjordan, Model model) {
     return "/unit3/gaussjordan/solvegaussjordan";
 }
 
+@GetMapping("/unit3/formjacobi")
+public String formJacobi(Model model) {
+    Jacobi jacobi = new Jacobi();
+    model.addAttribute("jacobi", jacobi);
+    return "/unit3/jacobi/formjacobi";
+}
+
+@PostMapping("/unit3/solvejacobi")
+public String solveJacobi(Jacobi jacobi, Model model) {
+    var solveJacobi = unidadIIIsrv.AlgoritmoJacobi(jacobi);
+
+    log.info("Resultado Jacobi: " + solveJacobi);
+    model.addAttribute("pasos", solveJacobi);
+    model.addAttribute("n", jacobi.getN());
+
+    return "/unit3/jacobi/solvejacobi";
+}
+
+@GetMapping("/unit3/formseidel")
+public String formSeidel(Model model) {
+    GaussSeidel gaussSeidel = new GaussSeidel();
+    model.addAttribute("gaussSeidel", gaussSeidel);
+    return "/unit3/seidel/formseidel";
+}
+
+@PostMapping("/unit3/solveseidel")
+public String solveSeidel(GaussSeidel gaussSeidel, Model model) {
+    var solveSeidel = unidadIIIsrv.AlgoritmoGaussSeidel(gaussSeidel);
+
+    log.info("Resultado Gauss-Seidel: " + solveSeidel);
+    model.addAttribute("pasos", solveSeidel);
+
+    return "/unit3/seidel/solveseidel";
+}
 
 }
